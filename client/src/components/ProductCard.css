@@ -1,0 +1,28 @@
+#product-image{
+    width: 380px;
+    height: 380px;
+}
+
+.product-name {
+    font-size: 16px;
+    line-height: 30px;
+    color: rgb(47, 47, 47);
+    font-weight: 600;
+    font-family: "Montserrat", Verdana, sans-serif;
+}
+
+.product-price {
+    font-family: "Montserrat", Verdana, sans-serif;
+    line-height: 28px;
+    font-weight: 400;
+    color: rgb(47, 47, 47);
+}
+
+.product-rating {
+    display: flex;
+}
+
+.star {
+    width: 18px;
+    height: 18px;
+}

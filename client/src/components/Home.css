@@ -1,0 +1,57 @@
+@font-face {
+    font-family: 'monglan';
+    src: url("../assets/Moglan_DEMO.ttf");
+}
+
+.banner {
+    height: 540px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(232, 232, 232);
+}
+.banner img {
+    width: 540px;
+}
+.banner-text {
+    width: 420px;
+}
+
+h1 {
+    font-family: 'monglan';
+    font-weight: 400;
+    font-size: 65px;
+    color:rgb(47, 47, 47);
+}
+
+#shop-button {
+    width: 150px;
+    height: 30px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+#shop-button p {
+    font-size: 12px;
+    color: rgb(47, 47, 47);
+}
+#shop-button:hover {
+    background-color: rgb(245, 245, 245);
+}
+
+.popular-products {
+    width: 100%;
+}
+
+.popular-products h1 {
+    font-size: 50px;
+    text-align: center;
+}
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+}
