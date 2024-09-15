@@ -6,12 +6,15 @@
 }
 
 #filter {
+    width: 100%;
     margin-top: 60px;
+    background-color: white;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    padding-right: 30px;
     height: 60px;
+    border-bottom: solid 1px rgb(47, 47, 47);
+    border-top: solid 1px rgb(47, 47, 47);
 }
 
 .search-products {
