@@ -2,8 +2,9 @@
     display: flex;
     gap: 130px;
     width: 100%;;
+    justify-content: center;
     align-items: center;
-    padding-top: 90px;
+    padding-top: 150px;
 }
 
 .img-card {
@@ -57,7 +58,7 @@
 }
 
 .thumbnail:hover {
-    background-color: #FF6E00;
+    background-color: #B59410;
 }
 
 .content-card {
@@ -133,7 +134,7 @@
     width: 274px;
     height: 56px;
     border-radius: 8px;
-    background-color: hsl(26, 100%, 55%);
+    background-color: black;
     display: flex;
     gap: 15px;
     justify-content: center;
@@ -141,7 +142,7 @@
 }
 
 #add-to-cart:hover {
-    background-color: hsl(25, 100%, 74%);
+    background-color: #B59410;
 }
 
 #minus-button {

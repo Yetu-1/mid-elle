@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Product.css"
 
-const product_images = ["image-product-1.jpg", "image-product-2.jpg", "image-product-3.jpg", "image-product-4.jpg"]
+const product_images = ["product-1.jpg", "product-2.jpg", "product-3.jpg", "product-4.jpg"]
 
 export function Product() {
     const [currImage, setCurrImage] = useState(product_images[0]);
@@ -32,9 +32,9 @@ export function Product() {
                 </div>
             </div>
             <div className="content-card">
-                <p id="company-name">SNEAKER COMPANY</p>
-                <h1 id="product-name">Fall Limited Edition Sneakers</h1>
-                <p>These low-profile sneakers are your perfect casual wear companinion. Featuring a durable outer rubber sole, they'll withstand everything the weather can offer.</p>
+                <p id="company-name">MID - ELLE</p>
+                <h1 id="product-name" style={{fontWeight: "bold"}}>Stainless Steel Smooth Double Ball Beads Rings</h1>
+                <p>Stainless Steel Smooth Double Ball Beads Rings For Woman Open Gold Color Geometric Wedding Couple Rings Aesthetic Jewelry Gift.</p>
                 <div className="price-discount">
                     <h2>₦10,500.00</h2>
                     <div className="discount">
@@ -52,13 +52,13 @@ export function Product() {
                         <p style={{color: "black", fontWeight: "bold"}}>{itemCount}</p>
 
                         <div id="add-button" onClick={increaseItems}>
-                            <img src="icon-plus.svg"  alt="minus icon" />
+                            <img src="icon-plus.svg" alt="minus icon" />
                         </div>
                     </div>
 
                     <div id="add-to-cart">
-                        <img src="icon-cart-black.svg"  alt="cart icon"/>
-                        <p style={{color: "black", fontWeight: "bold"}}>Add to cart</p>
+                        <img src="icon-cart-white.svg"  alt="cart icon"/>
+                        <p style={{color: "white", fontWeight: "bold"}}>Add to cart</p>
                     </div>
                 </div>
             </div>

@@ -11,19 +11,19 @@ const links = [
     },
     {
         name: "NECKLACES",
-        path: "/women"
+        path: "/necklaces"
     },
     {
         name: "BRACELETS",
-        path: "/about"
+        path: "/bracelets"
     },
     {
         name: "EARRINGS",
-        path: "/contact"
+        path: "/earrings"
     },
     {
         name: "GIFT BOXES",
-        path: "/contact"
+        path: "/giftboxes"
     }
 ]
   

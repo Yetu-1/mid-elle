@@ -25,15 +25,25 @@ function App() {
             <Search />
           </div>
         }/>
-
-        <Route path='/collections' element={
+        <Route path='/necklaces' element={
           <div className='container'>
             <NavBar />
-            <h1>Collections</h1>
+            <Search />
           </div>
         }/>
-
-        <Route path='/men' element={
+        <Route path='/bracelets' element={
+          <div className='container'>
+            <NavBar />
+            <Search />
+          </div>
+        }/>
+        <Route path='/earrings' element={
+          <div className='container'>
+            <NavBar />
+            <Search />
+          </div>
+        }/>
+        <Route path='/giftboxes' element={
           <div className='container'>
             <NavBar />
             <Product />
