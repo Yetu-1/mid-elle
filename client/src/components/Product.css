@@ -96,6 +96,10 @@
     margin: 0px;
 }
 
+#price {
+    font-family: "Montserrat", Verdana, sans-serif;
+}
+
 .discount {
     width: 50px;
     height: 25px;
@@ -114,7 +118,7 @@
 #old-price {
     font-weight: bold;
     text-decoration: line-through;
-    margin-bottom: 25px; 
+    margin-bottom: 5px; 
 }
 .buy {
     display: flex;

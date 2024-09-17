@@ -1,17 +1,12 @@
 body {
   width: 100%;
   height: 100vh;
-  font-family: "Kumbh Sans", sans-serif;
+  font-family: "Montserrat", Verdana, sans-serif;
   margin: 0px;
 }
 
 .container {
   width: 100%;
-}
-
-hr {
-  border: 0;
-  border-top: solid #dbdbdb;
 }
 
 .nav-1 {
@@ -21,6 +16,7 @@ hr {
 }
 .nav-bar {
   position: fixed;
+  z-index: 9;
   top: 0;
   display: flex;
   justify-content: space-between;
@@ -28,6 +24,7 @@ hr {
   height: 60px;
   gap: 40px;
   background-color: white;
+  border-bottom: solid 1px #dbdbdb;;
 }
 
 #logo {
@@ -45,6 +42,7 @@ hr {
   display: flex;
   gap: 30px;
   align-items: center;
+  margin-right: 20px;
 }
 
 #cart > img {
@@ -77,3 +75,41 @@ hr {
 #profile > img {
  color: rgb(47, 47, 47);
 }
+
+.profile-button {
+  position: relative;
+}
+
+.profile-button:hover #dropdown{
+  visibility: visible;
+}
+#dropdown {
+  visibility: hidden;
+  position: absolute;
+  top: 40px;
+  left: -50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 220px;
+  height: 120px;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+}
+.dropdown-button {
+  width: 166px;
+  height: 25px;
+  color: rgb(47, 47, 47);
+  font-size: 11px;
+  border: solid 1px rgb(47, 47, 47);
+  padding-left: 20px;
+  padding-top: 15px;
+  transition: background-color 170ms;
+}
+
+.dropdown-button:hover {
+  border: none;
+  color: white;
+  background-color: #B59410;
+} 

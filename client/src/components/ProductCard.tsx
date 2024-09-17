@@ -1,11 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import "./ProductCard.css"
 
 const rating = 5;
 
-export function ProductCard (props: {rating: number, price: number, name: string, image: string}) {
+export function ProductCard (props: {rating: number, price: number, name: string, image: string, id: number}) {
+    const navigate = useNavigate();
+
+    function handleClick (){
+        navigate(`/product/${props.id}`)
+    }
+
     return (
-        <div className="product-card">
-            <img src={props.image} alt="butterfly necklace" id="product-image" />
+        <div className="product-card" onClick={handleClick}>
+            <img src={props.image} alt="butterfly necklace" className="product-image" />
+            <div className="image-mask"></div>
             <p className="product-name">{props.name}</p>
             <p className="product-price">₦{(props.price).toLocaleString()}</p>
             <div className="product-rating">
