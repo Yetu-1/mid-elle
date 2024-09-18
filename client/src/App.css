@@ -87,7 +87,7 @@ body {
   visibility: hidden;
   position: absolute;
   top: 40px;
-  left: -50px;
+  left: -110px;
   display: flex;
   flex-direction: column;
   gap: 10px;
