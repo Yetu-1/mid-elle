@@ -50,7 +50,6 @@ app.post("/register", async (req, res) => {
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
   const password = req.body.password;
-  console.log(req.body);
   try {
     const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [
       email,
@@ -108,17 +107,18 @@ app.post("/login", async (req, res) => {
           console.log("Error comparing passwords: ", err);
         }else {
           if(result) {
-            res.render("secrets.ejs");
+            res.send(200);
           }else {
-            res.send("Incorrect Password");
+            res.send("Incorrect password"); // incorrect password
           }
         }
       });
     } else {
-      res.send("User not found");
+      res.send("User not found"); // user not found
     }
   } catch (err) {
     console.log(err);
+    res.send("Error")
   }
 });
 

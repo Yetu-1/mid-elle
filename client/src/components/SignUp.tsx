@@ -25,11 +25,6 @@ export function SignUp() {
         } catch (error) {
             console.error('Error fetching data:', error);
         }
-
-        console.log(email);
-        console.log(firstname);
-        console.log(lastname);
-        console.log(password);
     }
 
     return (

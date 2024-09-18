@@ -54,6 +54,10 @@
     transition: border 500ms;
 }
 
+.border-red {
+    border-color: red;
+}
+
 .input-field:hover {
     border: solid 2px  #b49725;  
 }
