@@ -78,6 +78,7 @@ body {
 
 .profile-button {
   position: relative;
+  height: 40px;
 }
 
 .profile-button:hover #dropdown{

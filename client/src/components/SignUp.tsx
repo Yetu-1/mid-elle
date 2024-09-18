@@ -1,15 +1,30 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate  } from "react-router-dom"
 import "./Account.css"
-import { FormEvent, useRef, useState } from "react";
-
+import axios from 'axios';
+import { FormEvent, useState } from "react";
+import * as dotenv from 'dotenv'
+ 
 export function SignUp() {
     const [firstname, setFirstName] = useState("");
     const [lastname, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-    function handleSubmit(e: FormEvent) {
+    async function handleSubmit(e: FormEvent) {
         e.preventDefault();
+
+        try {
+            // send a post request to the server with a payload that includes firstname, lastname, email and password
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/register`, {firstname: firstname, lastname: lastname, email: email, password: password});
+            console.log(response.data);
+            
+            if(response.data == 'OK' || response.data == "Email exists") {
+                navigate("/login");
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
 
         console.log(email);
         console.log(firstname);

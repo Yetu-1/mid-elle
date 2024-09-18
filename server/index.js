@@ -2,26 +2,39 @@ import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 import bcrypt from "bcrypt"
+import cors from "cors"
+import env from "dotenv"
+import jwt from "jsonwebtoken"
 
 const app = express();
 const port = 3000;
 const saltRounds = 10;
 
+env.config();
+
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "mid-elle",
-  password: "swordfish",
-  port: 5432,
+    user: process.env.PG_USER,
+    host: process.env.PG_HOST,
+    database: process.env.PG_DATABASE,
+    password: process.env.PG_PASSWORD,
+    port: process.env.PG_PORT,
 });
+
 
 db.connect();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors({
+    origin: "*",
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  res.render("home.ejs");
+  console.log("hello");
 });
 
 app.get("/login", (req, res) => {
@@ -37,30 +50,44 @@ app.post("/register", async (req, res) => {
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
   const password = req.body.password;
-
+  console.log(req.body);
   try {
     const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
 
     if (checkResult.rows.length > 0) {
-      res.send("Email already exists. Try logging in.");
+        // if Email already exists
+        res.send("Email exists");
     } else {
       // create hash the input password 
       bcrypt.hash(password, saltRounds, async (err, hash) => {
         if(err) {
-          console.log("Error hashing password: ", err);
+            res.send("Error hashing password: ", err);
         }else {
-          const result = await db.query(
-            "INSERT INTO users (email, firstname, lastname, password) VALUES ($1, $2, $3, $4)",
+            const result = await db.query(
+            "INSERT INTO users (email, firstname, lastname, password) VALUES ($1, $2, $3, $4) RETURNING id",
             [email, firstname, lastname, hash]
-          );
-          res.render("secrets.ejs");
+            );
+            // get user id for jwt creation
+            const response = result.rows[0] // in the form -> { id: 3 }
+            // Create jsonwebtoken
+            const jwt_token = jwt.sign(response, process.env.ACCESS_TOKEN_SECRET);
+            try{
+                const rep = await db.query(
+                    "UPDATE users SET jwt = $1 WHERE id = $2",[jwt_token, response.id]
+                );
+            }catch (err){
+                console.log(err);
+                res.send("Error saving jwt!")
+            }
+
+          res.sendStatus(200);
         }
       });
     }
   } catch (err) {
-    console.log(err);
+    res.sendStatus(400);
   }
 });
 
