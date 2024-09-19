@@ -81,10 +81,10 @@ body {
   height: 40px;
 }
 
-.profile-button:hover #dropdown{
+.profile-button:hover .dropdown{
   visibility: visible;
 }
-#dropdown {
+.dropdown {
   visibility: hidden;
   position: absolute;
   top: 40px;
@@ -114,3 +114,7 @@ body {
   color: white;
   background-color: #B59410;
 } 
+
+.dropdown p {
+  color: black;
+}

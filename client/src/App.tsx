@@ -92,12 +92,7 @@ function NavBar() {
         <div id="search-button">
           <img src="/search.svg" alt="profile image" style={{width: "35px"}}/>
         </div>
-        {(sessionStorage.getItem("jwt"))? 
-          <div id="avatar">
-            <img src="/image-avatar.png" alt="avater image" />
-          </div> : 
-          <UserRegButton />
-        }
+        {(sessionStorage.getItem("jwt"))? <AvatarButton /> : <UserRegButton />}
         <div id="cart">
           <img src={cartIcon}  alt="cart icon" />
         </div>
@@ -113,12 +108,34 @@ function UserRegButton() {
         <img src="/icon-profile.svg" alt="profile image" style={{width: "33px"}}/>
       </div>
 
-      <div id="dropdown">
+      <div className="dropdown">
         <NavLink to="/login"><p className="dropdown-button">LOG IN</p></NavLink>
         <NavLink to="/signup"><p className="dropdown-button">SIGN UP</p></NavLink>
       </div>
     </div>
   )
 }
+
+function AvatarButton() {
+  function handleLogout() {
+    sessionStorage.removeItem("jwt");
+    sessionStorage.removeItem("name");
+    window.location.reload();
+  }
+
+  return (
+    <div className="profile-button">
+      <div id="avatar">
+        <img src="/image-avatar.png" alt="avater image"  style={{width: "33px"}}/>
+      </div>
+
+      <div className="dropdown">
+        <p>Welcome back, <span style={{fontWeight: "bold"}}>{sessionStorage.getItem("firstname")}</span></p>
+        <p className="dropdown-button" style={{textAlign: "center", paddingLeft: '0px'}} onClick={handleLogout}>SIGN OUT</p>
+      </div>
+    </div>
+  )
+}
+
 
 export default App

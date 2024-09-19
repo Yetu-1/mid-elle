@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, resolvePath, useNavigate } from "react-router-dom"
 import axios from 'axios';
 import { FormEvent, useRef, useState } from "react";
 import * as dotenv from 'dotenv'
@@ -19,10 +19,8 @@ export function Login() {
             console.log(response.data);
             
             if(response.data.jwt) {
-                console.log(response.data.jwt)
+                sessionStorage.setItem("firstname", response.data.firstname);
                 sessionStorage.setItem("jwt", response.data.jwt);
-                console.log(sessionStorage.getItem("jwt"));
-                console.log(sessionStorage.getItem("name"));
                 navigate("/");
             }else if (response.data == "Incorrect password") { // incorrect password
                 setIsPWCorrect(false);

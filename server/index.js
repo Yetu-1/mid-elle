@@ -108,10 +108,11 @@ app.post("/login", async (req, res) => {
         }else {
           if(result) {
             try {
-                const response = await db.query("SELECT jwt FROM users WHERE email = $1", [
+                const response = await db.query("SELECT * FROM users WHERE email = $1", [
                     email,
                 ]);
-                res.send(response.rows[0]);
+                const user = response.rows[0];
+                res.send(user);
             }catch{
                 res.send("Error fetching jwt");
             }
@@ -128,6 +129,20 @@ app.post("/login", async (req, res) => {
     res.send("Error")
   }
 });
+
+function authenticate(req, res, next) {
+    const authHeader = req.headers['authorization']
+    // Bearer Token
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if(token == null) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) =>{
+        if(err) res.sendStatus(403);
+        req.user = user;
+        next();
+    })
+}
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
