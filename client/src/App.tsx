@@ -92,16 +92,15 @@ function NavBar() {
         <div id="search-button">
           <img src="/search.svg" alt="profile image" style={{width: "35px"}}/>
         </div>
-        {/* <div id="avatar">
-          <img src="/image-avatar.png" alt="avater image" />
-        </div> */}
-        <UserRegButton />
+        {(sessionStorage.getItem("jwt"))? 
+          <div id="avatar">
+            <img src="/image-avatar.png" alt="avater image" />
+          </div> : 
+          <UserRegButton />
+        }
         <div id="cart">
           <img src={cartIcon}  alt="cart icon" />
         </div>
-        {/* <div id="profile">
-          <img src="/icon-profile.svg" alt="profile image" style={{width: "33px"}}/>
-        </div> */}
       </div>
     </div>
   )

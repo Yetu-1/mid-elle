@@ -102,12 +102,19 @@ app.post("/login", async (req, res) => {
       const user = result.rows[0];
       const storedHashedPassword = user.password;
       // compare input login password with stored hash
-      bcrypt.compare(loginPassword, storedHashedPassword, (err, result) => {
+      bcrypt.compare(loginPassword, storedHashedPassword, async (err, result) => {
         if(err) {
           console.log("Error comparing passwords: ", err);
         }else {
           if(result) {
-            res.send(200);
+            try {
+                const response = await db.query("SELECT jwt FROM users WHERE email = $1", [
+                    email,
+                ]);
+                res.send(response.rows[0]);
+            }catch{
+                res.send("Error fetching jwt");
+            }
           }else {
             res.send("Incorrect password"); // incorrect password
           }

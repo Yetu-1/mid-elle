@@ -18,7 +18,11 @@ export function Login() {
             const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/login`, {email: email, password: password});
             console.log(response.data);
             
-            if(response.data == 'OK') {
+            if(response.data.jwt) {
+                console.log(response.data.jwt)
+                sessionStorage.setItem("jwt", response.data.jwt);
+                console.log(sessionStorage.getItem("jwt"));
+                console.log(sessionStorage.getItem("name"));
                 navigate("/");
             }else if (response.data == "Incorrect password") { // incorrect password
                 setIsPWCorrect(false);
@@ -30,8 +34,6 @@ export function Login() {
         } catch (error) {
             console.error('Error fetching data:', error);
         }
-        console.log(email);
-        console.log(password);
     }
 
     return (
