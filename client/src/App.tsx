@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { MyNavLink } from './components/MyNavLink'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Product } from './components/Product'
 import cartIcon from "./assets/icon-cart.svg"
 import { Home } from './components/Home'
@@ -89,7 +89,7 @@ function NavBar() {
       </div>
 
       <div className='nav-list'>
-        <div id="search-button">
+        <div className="profile-button">
           <img src="/search.svg" alt="profile image" style={{width: "35px"}}/>
         </div>
         {(sessionStorage.getItem("jwt"))? <AvatarButton /> : <UserRegButton />}
@@ -117,16 +117,20 @@ function UserRegButton() {
 }
 
 function AvatarButton() {
+  const navigate = useNavigate();
   function handleLogout() {
     sessionStorage.removeItem("jwt");
     sessionStorage.removeItem("name");
+    navigate("/")
     window.location.reload();
   }
 
   return (
     <div className="profile-button">
-      <div id="avatar">
-        <img src="/image-avatar.png" alt="avater image"  style={{width: "33px"}}/>
+      <div className='top'>
+        <div id="avatar">
+          <img src="/icon-avatar.svg" alt="avater image" style={{width: "40px", borderRadius: "20px"}}/>
+        </div>
       </div>
 
       <div className="dropdown">

@@ -62,9 +62,14 @@ body {
   align-items: center;
   transition: background-color 170ms;
 }
+
 #avatar > img {
   width: 40px;
   height: 40px;
+}
+
+.top {
+  z-index: 9;
 }
 
 #avatar:hover {
@@ -79,6 +84,10 @@ body {
 .profile-button {
   position: relative;
   height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile-button:hover .dropdown{
