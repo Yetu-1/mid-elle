@@ -1,13 +1,10 @@
-import { useState } from 'react'
-import { NavLink, Route, Routes } from 'react-router-dom'
-import { MyNavLink } from './components/MyNavLink'
-import { Link, useNavigate } from 'react-router-dom'
-import { Product } from './components/Product'
-import cartIcon from "./assets/icon-cart.svg"
-import { Home } from './components/Home'
-import { Search } from './components/Search'
-import { SignUp } from './components/SignUp'
-import { Login } from './components/Login'
+import { Route, Routes } from 'react-router-dom'
+import { Product } from './screens/Product'
+import { Home } from './screens/Home'
+import { Search } from './screens/Search'
+import { SignUp } from './screens/SignUp'
+import { Login } from './screens/Login'
+import { NavBar } from './components/NavBar'
 import './App.css'
 
 function App() {
@@ -79,67 +76,5 @@ function App() {
     </div>
   )
 }
-
-function NavBar() {
-  return (
-    <div className='nav-bar'>
-      <div className='nav-1'>
-        <Link to="/" id="logo">MID-ELLE</Link>
-        <MyNavLink />     
-      </div>
-
-      <div className='nav-list'>
-        <div className="profile-button">
-          <img src="/search.svg" alt="profile image" style={{width: "35px"}}/>
-        </div>
-        {(sessionStorage.getItem("jwt"))? <AvatarButton /> : <UserRegButton />}
-        <div id="cart">
-          <img src={cartIcon}  alt="cart icon" />
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function UserRegButton() {
-  return (
-    <div className="profile-button">
-      <div>
-        <img src="/icon-profile.svg" alt="profile image" style={{width: "33px"}}/>
-      </div>
-
-      <div className="dropdown">
-        <NavLink to="/login"><p className="dropdown-button">LOG IN</p></NavLink>
-        <NavLink to="/signup"><p className="dropdown-button">SIGN UP</p></NavLink>
-      </div>
-    </div>
-  )
-}
-
-function AvatarButton() {
-  const navigate = useNavigate();
-  function handleLogout() {
-    sessionStorage.removeItem("jwt");
-    sessionStorage.removeItem("name");
-    navigate("/")
-    window.location.reload();
-  }
-
-  return (
-    <div className="profile-button">
-      <div className='top'>
-        <div id="avatar">
-          <img src="/icon-avatar.svg" alt="avater image" style={{width: "40px", borderRadius: "20px"}}/>
-        </div>
-      </div>
-
-      <div className="dropdown">
-        <p>Welcome back, <span style={{fontWeight: "bold"}}>{sessionStorage.getItem("firstname")}</span></p>
-        <p className="dropdown-button" style={{textAlign: "center", paddingLeft: '0px'}} onClick={handleLogout}>SIGN OUT</p>
-      </div>
-    </div>
-  )
-}
-
 
 export default App

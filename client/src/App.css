@@ -45,14 +45,6 @@ body {
   margin-right: 20px;
 }
 
-#cart > img {
-  transition: width 300ms;
-}
-
-#cart > img:hover {
-  width: 25px;
-}
-
 #avatar {
   width: 46px;
   height: 46px;
@@ -126,4 +118,25 @@ body {
 
 .dropdown p {
   color: black;
+}
+
+#cart-button {
+  position: relative;
+}
+
+#cart-item-count {
+  position: absolute;
+  top: -5px;
+  left: 12px;
+  background-color: #B59410;
+  width: 20px;
+  height: 15px;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 3px;
+}
+
+#cart-item-count p {
+  font-size: 12px;
+  color: white;
 }

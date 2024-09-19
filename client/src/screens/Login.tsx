@@ -1,7 +1,6 @@
-import { Link, resolvePath, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from 'axios';
-import { FormEvent, useRef, useState } from "react";
-import * as dotenv from 'dotenv'
+import { FormEvent, useState } from "react";
 import "./Account.css"
 
 export function Login() {
@@ -21,6 +20,7 @@ export function Login() {
             if(response.data.jwt) {
                 sessionStorage.setItem("firstname", response.data.firstname);
                 sessionStorage.setItem("jwt", response.data.jwt);
+                sessionStorage.setItem("cartCount", "9");
                 navigate("/");
             }else if (response.data == "Incorrect password") { // incorrect password
                 setIsPWCorrect(false);

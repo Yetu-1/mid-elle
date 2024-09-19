@@ -2,7 +2,6 @@ import { Link, useNavigate  } from "react-router-dom"
 import "./Account.css"
 import axios from 'axios';
 import { FormEvent, useState } from "react";
-import * as dotenv from 'dotenv'
  
 export function SignUp() {
     const [firstname, setFirstName] = useState("");

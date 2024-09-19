@@ -71,10 +71,10 @@ app.post("/register", async (req, res) => {
             // get user id for jwt creation
             const response = result.rows[0] // in the form -> { id: 3 }
             // Create jsonwebtoken
-            const jwt_token = jwt.sign(response, process.env.ACCESS_TOKEN_SECRET);
+            const refresh_token = jwt.sign(response, process.env.REFRESH_TOKEN_SECRET);
             try{
-                const rep = await db.query(
-                    "UPDATE users SET jwt = $1 WHERE id = $2",[jwt_token, response.id]
+                await db.query(
+                    "UPDATE users SET refresh_token = $1 WHERE id = $2",[refresh_token, response.id]
                 );
             }catch (err){
                 console.log(err);
