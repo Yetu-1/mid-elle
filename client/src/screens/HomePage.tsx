@@ -1,4 +1,4 @@
-import "./Home.css"
+import "./HomePage.css"
 import { ProductCard } from "../components/ProductCard"
 
 const products = [
@@ -32,7 +32,7 @@ const products = [
     }
 ]
 
-export function Home() {
+export function HomePage() {
     return (
         <div className='container'>
             <div className="banner">

@@ -17,7 +17,7 @@ export function NavBar() {
           <div className="profile-button">
             <img src="/search.svg" alt="profile image" style={{width: "35px"}}/>
           </div>
-          {(sessionStorage.getItem("jwt"))? <AvatarButton /> : <UserAccountButton />}
+          {(sessionStorage.getItem("token"))? <AvatarButton /> : <UserAccountButton />}
           <div id="cart-button">
           {(sessionStorage.getItem("cartCount") == null)? "" :
             <div id="cart-item-count">

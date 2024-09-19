@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Product.css"
+import "./ProductPage.css"
 import { useParams } from "react-router-dom";
 
 const product_images = ["/product-1.jpg", "/product-2.jpg", "/product-3.jpg", "/product-4.jpg"]
@@ -19,7 +19,7 @@ type ProductInfo = {
 
 const rating = 3;
 
-export function Product() {
+export function ProductPage() {
     const {id} = useParams();
     const [currImage, setCurrImage] = useState(product_images[0]);
     const [itemCount, setItemCount] = useState(0);

@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router-dom'
-import { Product } from './screens/Product'
-import { Home } from './screens/Home'
-import { Search } from './screens/Search'
-import { SignUp } from './screens/SignUp'
-import { Login } from './screens/Login'
+import { ProductPage } from './screens/ProductPage'
+import { HomePage } from './screens/HomePage'
+import { SearchPage } from './screens/SearchPage'
+import { SignUpPage } from './screens/SignUpPage'
+import { LoginPage } from './screens/LoginPage'
 import { NavBar } from './components/NavBar'
 import './App.css'
 
@@ -15,61 +15,61 @@ function App() {
         <Route path='/' element={
           <div className='container'>
             <NavBar />
-            <Home />
+            <HomePage />
           </div>
         }/>
         <Route path='/login' element={
           <div className='container'>
             <NavBar />
-            <Login />
+            <LoginPage />
           </div>
         }/>
         <Route path='/signup' element={
           <div className='container'>
             <NavBar />
-            <SignUp />
+            <SignUpPage />
           </div>
         }/>
         <Route path='/rings' element={
           <div className='container'>
             <NavBar />
-            <Search />
+            <SearchPage />
           </div>
         }/>
         <Route path='/necklaces' element={
           <div className='container'>
             <NavBar />
-            <Search />
+            <SearchPage />
           </div>
         }/>
         <Route path='/bracelets' element={
           <div className='container'>
             <NavBar />
-            <Search />
+            <SearchPage />
           </div>
         }/>
         <Route path='/earrings' element={
           <div className='container'>
             <NavBar />
-            <Search />
+            <SearchPage />
           </div>
         }/>
         <Route path='/giftboxes' element={
           <div className='container'>
             <NavBar />
-            <Product />
+            <ProductPage />
           </div>
         }/>
         <Route path='/product/:id' element={
           <div className='container'>
             <NavBar />
-            <Product />
+            <ProductPage />
           </div>
         }/>
         <Route path='*' element={
           <div className='container'>
             <NavBar />
-            <Home />
+            <HomePage />
           </div>
         }/>
       </Routes>

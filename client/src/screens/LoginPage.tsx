@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FormEvent, useState } from "react";
 import "./Account.css"
 
-export function Login() {
+export function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [ispwCorrect, setIsPWCorrect] = useState(true);
@@ -17,9 +17,9 @@ export function Login() {
             const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/login`, {email: email, password: password});
             console.log(response.data);
             
-            if(response.data.jwt) {
+            if(response.data.token) {
                 sessionStorage.setItem("firstname", response.data.firstname);
-                sessionStorage.setItem("jwt", response.data.jwt);
+                sessionStorage.setItem("token", response.data.jwt);
                 sessionStorage.setItem("cartCount", "9");
                 navigate("/");
             }else if (response.data == "Incorrect password") { // incorrect password

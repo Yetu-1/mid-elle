@@ -4,7 +4,7 @@ import "../App.css"
 export function AvatarButton() {
     const navigate = useNavigate();
     function handleLogout() {
-      sessionStorage.removeItem("jwt");
+      sessionStorage.removeItem("token");
       sessionStorage.removeItem("name");
       sessionStorage.removeItem("cartCount");
       navigate("/")

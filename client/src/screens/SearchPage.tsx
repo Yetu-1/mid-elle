@@ -1,5 +1,5 @@
 import { ProductCard } from "../components/ProductCard"
-import "./Search.css"
+import "./SearchPage.css"
 
 const products = [
     {
@@ -60,7 +60,7 @@ const products = [
     }
 ]
 
-export function Search() {
+export function SearchPage() {
     return (
         <div className="search-page-container">
             <div id="filter">

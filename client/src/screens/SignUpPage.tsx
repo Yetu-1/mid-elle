@@ -3,7 +3,7 @@ import "./Account.css"
 import axios from 'axios';
 import { FormEvent, useState } from "react";
  
-export function SignUp() {
+export function SignUpPage() {
     const [firstname, setFirstName] = useState("");
     const [lastname, setLastName] = useState("");
     const [email, setEmail] = useState("");
