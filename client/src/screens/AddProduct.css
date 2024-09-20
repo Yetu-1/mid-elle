@@ -1,0 +1,69 @@
+#add-product-form {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.form-group {
+    width: 780px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.input-label {
+    font-weight: bold;
+    color: rgb(47, 47, 47);
+}
+
+.select-box {
+    width: 500px;
+    height: 52px;
+    outline: none;
+    border: solid 2px #E8E8E8;
+    transition: border 500ms;
+}
+.select-box:hover {
+    border: solid 2px  #b49725;  
+}
+
+.description {
+    resize: none;
+    height: 130px;
+}
+
+.upload-image {
+    width: 200px;
+    height: 200px;
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-image:hover {
+    background-color: rgb(155, 155, 155); 
+}
+
+.images {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 20px;
+    column-gap: 90px;
+}
+
+.images-card {
+    width: 500px;
+}
+
+.input-file {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}

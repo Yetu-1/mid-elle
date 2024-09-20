@@ -5,6 +5,7 @@ import { SearchPage } from './screens/SearchPage'
 import { SignUpPage } from './screens/SignUpPage'
 import { LoginPage } from './screens/LoginPage'
 import { NavBar } from './components/NavBar'
+import { AddProductPage } from './screens/AddProductPage'
 import './App.css'
 
 function App() {
@@ -57,7 +58,7 @@ function App() {
         <Route path='/giftboxes' element={
           <div className='container'>
             <NavBar />
-            <ProductPage />
+            <AddProductPage />
           </div>
         }/>
         <Route path='/product/:id' element={
