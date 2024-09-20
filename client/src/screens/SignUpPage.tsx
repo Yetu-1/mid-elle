@@ -38,7 +38,7 @@ export function SignUpPage() {
                 <input className="input-field" placeholder="*Firstname" required onChange={(e) => setFirstName(e.target.value)}></input>
                 <input className="input-field" placeholder="*Lastname" required onChange={(e) => setLastName(e.target.value)}></input>
                 <input className="input-field" placeholder="*Email" type="email" required onChange={(e) => setEmail(e.target.value)}></input>
-                <input className="input-field" placeholder="*Password" required onChange={(e) => setPassword(e.target.value)}></input>
+                <input className="input-field" placeholder="*Password" type="password" required onChange={(e) => setPassword(e.target.value)}></input>
                 <p id="password-text">Must be 6 characters and contain at least 1 number</p>
                 <button className="submit-button" type="submit">CREATE ACCOUNT</button>
             </form>

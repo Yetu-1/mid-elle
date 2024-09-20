@@ -44,7 +44,7 @@ export function LoginPage() {
 
             <form onSubmit={handleSubmit} className="form">
                 <input className="input-field" placeholder="*Email" type="email" required onChange={(e) => setEmail(e.target.value)}></input>
-                <input className={(ispwCorrect)? " input-field" : "input-field border-red "} placeholder="*Password" required onChange={(e) => setPassword(e.target.value)}></input>
+                <input className={(ispwCorrect)? " input-field" : "input-field border-red "} type="password" placeholder="*Password" required onChange={(e) => setPassword(e.target.value)}></input>
                 <p id="password-text">Must be 6 characters and contain at least 1 number</p>
                 <button className="submit-button" type="submit">LOG IN</button>
                 <Link to="/lostpassword">Lost your password?</Link>

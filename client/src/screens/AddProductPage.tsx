@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
+import axios from 'axios';
+import FormData from "form-data";
 import "./Account.css"
 import "./AddProduct.css"
 
+const exampleDescription = "Example: Stainless Steel Smooth Double Ball Beads Rings For Woman Open Gold Color Geometric Wedding Couple Rings Aesthetic Jewelry Gift.";
 export function AddProductPage() {
     const [images, setImages] = useState([]);
 
@@ -12,12 +15,60 @@ export function AddProductPage() {
     
     const [isMultiple, setIsMultiple] = useState(false);
 
-    function handleAddProduct() {
+    const [productName, setProductName] = useState("");
+    const [productType, setProductType] = useState("ring");
+    const [brandName, setBrandName] = useState("");
+    const [description, setDescription] = useState("");
+    const [price, setPrice] = useState("");
 
+    async function handleAddProduct(e: FormEvent) {
+        e.preventDefault();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+        };
+        const payload = {
+            name: productName,
+            type: productType,
+            brand: brandName,
+            description: description,
+            price: price,
+            no_of_images: images.length,
+        }
+        try {
+            // send a post request to the server with a payload that includes product details
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/product/add`, payload, config);
+            console.log(response.data);
+
+            const urls = response.data.img_urls;
+            await uploadImages(urls);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+        // if(isMultiple) {
+        //     console.log(images.length);
+        // }
     }
 
-    function handleImagesUpload(e : any) {
-        console.log(e.target.id);
+    async function uploadImages(urls: any) {
+        console.log("uploading Images");
+        for(let i = 0; i < urls.length; i++) {
+            try {
+                const file = images[i];
+                const { type, name } = file;
+                // 2. Upload at URL
+                await axios.put(urls[i], file, {
+                    headers: { "Content-Type": type },
+                });
+            }catch(error) {
+                console.error('Error uploading image:', error);
+            }
+        }
+    }
+
+    async function handleImagesUpload(e : any) {
         if(e.target.id == "mul-images") {
             if (e.target.files && e.target.files[0]) {
                 setImages(e.target.files);
@@ -26,7 +77,24 @@ export function AddProductPage() {
         }else if(e.target.id == "img-1"){
             if (e.target.files[0]) {
                 setImg1(e.target.files);
-            }
+
+                console.log("in here");
+                try {
+                    // send a post request to the server with a payload that includes firstname, lastname, email and password
+                    const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/url`);
+                    console.log(response.data);
+                      const file = e.target.files[0];
+                      const { type, name } = file;
+            
+                      console.log("in here");
+                      console.log(type)
+                      // 2. Upload at URL
+                      const resp = await axios.put(response.data, file, {
+                        headers: { "Content-Type": type },});
+                    console.log(resp);
+            }catch(error) {
+                console.error('Error uploading image:', error);
+            }}
         }else if(e.target.id == "img-2"){
             if (e.target.files[0]) {
                 setImg2(e.target.files);
@@ -48,13 +116,12 @@ export function AddProductPage() {
             <form id="add-product-form" onSubmit={handleAddProduct}>
                 <div className="form-group">
                     <p className="input-label">Product Name</p>
-                    <input className="input-field" placeholder="Example: Stainless Steel Smooth Double Ball Beads Rings" type="email" required />
+                    <input className="input-field" placeholder="Example: Stainless Steel Smooth Double Ball Beads Rings" required onChange={(e) => {setProductName(e.target.value)}}/>
                 </div>
 
                 <div className="form-group">
                     <p className="input-label">Product Type</p>
-                    {/* <input className="input-field" placeholder="Example: Ring" type="email" required /> */}
-                    <select className="select-box" name="cars" id="cars">
+                    <select className="select-box" onChange={(e) => {setProductType(e.target.value)}}>
                         <option value="ring">RING</option>
                         <option value="necklace">NECKLACE</option>
                         <option value="bracelet">BRACELET</option>
@@ -62,15 +129,19 @@ export function AddProductPage() {
                         <option value="giftbox">GIFTBOX</option>
                     </select>
                 </div>
-
                 <div className="form-group">
                     <p className="input-label">Brand Name</p>
-                    <input className="input-field" placeholder="Example: Zara" type="email" required />
+                    <input className="input-field" placeholder="Example: Zara" required onChange={(e) => {setBrandName(e.target.value)}}/>
+                </div>
+
+                <div className="form-group">
+                    <p className="input-label">Price</p>
+                    <input className="input-field" placeholder="Example: 10000" type="number" required onChange={(e) => {setPrice(e.target.value)}}/>
                 </div>
 
                 <div className="form-group">
                     <p className="input-label">Product Description</p>
-                    <textarea className="input-field description" placeholder="Example: Stainless Steel Smooth Double Ball Beads Rings For Woman Open Gold Color Geometric Wedding Couple Rings Aesthetic Jewelry Gift." required />
+                    <textarea className="input-field description" placeholder={exampleDescription} required onChange={(e) => {setDescription(e.target.value)}}/>
                 </div>
 
                 <div>
