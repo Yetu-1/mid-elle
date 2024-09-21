@@ -14,3 +14,16 @@ CREATE TABLE tokens (
 	id SERIAL PRIMARY KEY,
     token text
 )
+
+-- create products table
+CREATE TABLE products (
+	id SERIAL PRIMARY KEY,
+    product_id uuid,
+	name VARCHAR(100),
+	type VARCHAR(10),
+    brand VARCHAR(50),
+    description text,
+    price VARCHAR(100),
+    discount INTEGER,
+    images text[]
+)
