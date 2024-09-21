@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 import "./ProductPage.css"
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
-const product_images = ["/product-1.jpg", "/product-2.jpg", "/product-3.jpg", "/product-4.jpg"]
-// {
-//     name: "Stainless Steel Geometric Rings",
-//     price: 3500,
-//     image: "Stainless-Steel-Geometr-ic-Rings.jpg",
-//     rating: 4
-// },
 type ProductInfo = {
+    id: number,
+    product_id: string
     name: string
-    price: number
-    rating: number
+    type: string
+    brand: string
     description: string
+    price: string
+    discount: string
     images: string[]
 }
 
@@ -21,12 +19,38 @@ const rating = 3;
 
 export function ProductPage() {
     const {id} = useParams();
-    const [currImage, setCurrImage] = useState(product_images[0]);
+    const [currImage, setCurrImage] = useState("");
     const [itemCount, setItemCount] = useState(0);
+    const [product, setProduct] = useState<ProductInfo>(
+        {
+            id: 0,
+            product_id: "XX",
+            name: "XX",
+            type: "XX",
+            brand: "XX",
+            description: "XX",
+            price: "XX",
+            discount: "XX",
+            images: []
+        }
+    );
 
     useEffect(() => {
-        console.log(id);
-    })
+        async function getProduct() {
+            try {
+                // send a get request to the server with a payload contains the type of product
+                const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/product`, { id: id });
+
+                console.log(response.data);
+                setProduct(response.data)
+                setCurrImage(response.data.images[0])
+            }catch (err) {
+                console.log(err);
+            }
+        }
+
+        getProduct();
+    }, []);
 
     function increaseItems() {
         setItemCount(itemCount+1)
@@ -42,7 +66,7 @@ export function ProductPage() {
                 <img className="product-main-img" src={currImage} alt="product image"/>
 
                 <div className="thumbnail-card">
-                    {product_images.map((img, index) => {
+                    {product.images.map((img, index) => {
                         function handleClick(path: string) {
                             setCurrImage(path);
                         }
@@ -54,10 +78,10 @@ export function ProductPage() {
             </div>
             <div className="content-card">
                 <p id="company-name">MID - ELLE</p>
-                <h1 id="product-name" style={{fontWeight: "bold"}}>Stainless Steel Smooth Double Ball Beads Rings</h1>
-                <p>Stainless Steel Smooth Double Ball Beads Rings For Woman Open Gold Color Geometric Wedding Couple Rings Aesthetic Jewelry Gift.</p>
+                <h1 id="product-name" style={{fontWeight: "bold"}}>{product.name}</h1>
+                <p>{product.description}</p>
                 <div className="price-discount">
-                    <h2 id="price">₦{(10500.040).toLocaleString()}</h2>
+                    <h2 id="price">₦{(product.price).toLocaleString()}</h2>
                     <div className="discount">
                         <p>50%</p>
                     </div>

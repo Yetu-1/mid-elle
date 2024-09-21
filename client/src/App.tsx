@@ -34,25 +34,25 @@ function App() {
         <Route path='/rings' element={
           <div className='container'>
             <NavBar />
-            <SearchPage />
+            <SearchPage page="ring"/>
           </div>
         }/>
         <Route path='/necklaces' element={
           <div className='container'>
             <NavBar />
-            <SearchPage />
+            <SearchPage page="necklace"/>
           </div>
         }/>
         <Route path='/bracelets' element={
           <div className='container'>
             <NavBar />
-            <SearchPage />
+            <SearchPage page="bracelet"/>
           </div>
         }/>
         <Route path='/earrings' element={
           <div className='container'>
             <NavBar />
-            <SearchPage />
+            <SearchPage page="earrings" />
           </div>
         }/>
         <Route path='/giftboxes' element={

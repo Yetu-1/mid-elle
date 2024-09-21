@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import axios from 'axios';
-import FormData from "form-data";
+import { useNavigate } from "react-router-dom"
 import "./Account.css"
 import "./AddProduct.css"
 
@@ -20,6 +20,7 @@ export function AddProductPage() {
     const [brandName, setBrandName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
+    const navigate = useNavigate();
 
     async function handleAddProduct(e: FormEvent) {
         e.preventDefault();
@@ -39,11 +40,14 @@ export function AddProductPage() {
         }
         try {
             // send a post request to the server with a payload that includes product details
-            const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/product/add`, payload, config);
+            let response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/product/add`, payload, config);
             console.log(response.data);
 
             const urls = response.data.img_urls;
-            await uploadImages(urls);
+            let resp = await uploadImages(urls);
+            console.log(resp);
+            navigate("/giftboxes")
+            window.location.reload();
         } catch (error) {
             console.error('Error fetching data:', error);
         }

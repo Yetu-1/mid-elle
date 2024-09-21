@@ -3,23 +3,12 @@ import bodyParser from "body-parser";
 import cors from "cors"
 import env from "dotenv"
 import jwt from "jsonwebtoken"
-import { S3Client, PutObjectCommand} from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { verifyUser, createNewUser } from "./services/dbQueries.js";
+import { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo } from "./services/dbQueries.js";
+import { genProductUrls } from "./services/cloudStorage.js";
 
 const app = express();
 const port = 3000;
 env.config();
-
-const s3 = new S3Client({
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  },
-  region: process.env.BUCKET_REGION,
-});
-
-const bucketName = process.env.BUCKET_NAME;
 
 app.use(cors({
     origin: "*",
@@ -27,25 +16,6 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-async function getPresignedObjectUrl(product, file) {
-  const params = {
-    Bucket: bucketName,
-    Key: `${product}/${file}`,
-    // ContentType: 'image/jpeg'
-  };
-
-  const url = await getSignedUrl(s3, new PutObjectCommand(params));
-  return url;
-}
-
-async function getImgUrls(img_count, product_id) {
-  let urls = []
-  for(let i = 0; i < img_count; i++) {
-    const url = await getPresignedObjectUrl(product_id, `image-${i}`);
-    urls.push(url);
-  }
-  return urls;
-}
 
 app.use(bodyParser.json());
 app.use(express.static("public"));
@@ -61,12 +31,26 @@ app.get("/api/url", async (req, res) => {
 
 app.post("/api/product/add", async (req, res) => {
   console.log(req.body);
-  const product_id = '54895986894';
-  const img_count = req.body.no_of_images;
-
-  const img_urls = await getImgUrls(img_count, product_id);
+  const product = await genProductUrls(req.body);
+  const img_urls = await addProductToDB(product);
+  console.log("Sending image urls");
   res.json({img_urls: img_urls});
 });
+
+app.post("/api/products", async (req, res) => {
+  const product = req.body;
+  const products = await getProducts(product.type);
+  console.log(products)
+  res.json(products);
+})
+
+app.post("/api/product", async (req, res) => {
+  console.log(req.body.id);
+  const product = await getProductInfo(req.body.id);
+  console.log(product)
+  res.json(product);
+})
+
 
 app.post("/register", async (req, res) => {
   const response = await createNewUser(req.body);

@@ -145,4 +145,52 @@ async function generateAccessToken(refresh_token) {
     }
 }
 
-export { verifyUser, createNewUser };
+async function addProductToDB(product) {
+    try{
+        // add product to database
+        await db.query(
+            "INSERT INTO products (product_id, name, type, brand, description, price, discount, images) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+            [product.id, product.name, product.type, product.brand, product.description, product.price, product.discount, product.img_urls]
+        );
+        return product.img_urls;
+    }catch (err){
+        console.log(err);
+        return "Error Adding product"
+    }
+}
+
+async function getProducts(type) {
+    try{
+        // get products of specified type(e.g necklace) from database
+        const response = await db.query("SELECT * FROM products WHERE type = $1", [
+            type,
+        ]);
+        if(response.rows.length > 0) {
+            return response.rows;
+        }else {
+            return "No Products"
+        }
+    }catch (err){
+        console.log(err);
+        return "Error Adding product"
+    }
+}
+
+async function getProductInfo(id) {
+    try{
+        // get products of specified type(e.g necklace) from database
+        const response = await db.query("SELECT * FROM products WHERE product_id = $1", [
+            id,
+        ]);
+        if(response.rows.length > 0) {
+            return response.rows[0];
+        }else {
+            return "No Such Product"
+        }
+    }catch (err){
+        console.log(err);
+        return "Error Adding product"
+    }
+}
+
+export { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo};
