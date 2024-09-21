@@ -1,27 +1,15 @@
 import express from "express";
 import bodyParser from "body-parser";
-import pg from "pg";
-import bcrypt from "bcrypt"
 import cors from "cors"
 import env from "dotenv"
 import jwt from "jsonwebtoken"
-import { v4 as uuidv4 } from 'uuid';
-import { S3Client, GetObjectCommand, PutObjectCommand} from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand} from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { verifyUser, createNewUser } from "./services/dbQueries.js";
 
 const app = express();
 const port = 3000;
-const saltRounds = 10;
 env.config();
-
-const db = new pg.Client({
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DATABASE,
-  password: process.env.PG_PASSWORD,
-  port: process.env.PG_PORT,
-});
 
 const s3 = new S3Client({
   credentials: {
@@ -32,9 +20,6 @@ const s3 = new S3Client({
 });
 
 const bucketName = process.env.BUCKET_NAME;
-
-
-db.connect();
 
 app.use(cors({
     origin: "*",
