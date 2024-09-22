@@ -42,12 +42,13 @@ export function AddProductPage() {
             // send a post request to the server with a payload that includes product details
             let response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/product/add`, payload, config);
             console.log(response.data);
-
-            const urls = response.data.img_urls;
-            let resp = await uploadImages(urls);
-            console.log(resp);
-            navigate("/giftboxes")
-            window.location.reload();
+            if(response.data != "Unauthorized request") {
+                const urls = response.data.img_urls;
+                let resp = await uploadImages(urls);
+                console.log(resp);
+                navigate("/giftboxes")
+                window.location.reload();
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
