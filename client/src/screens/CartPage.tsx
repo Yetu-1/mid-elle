@@ -100,7 +100,7 @@ export function CartPage() {
         <div className="cart-container">
             <div id="cart-card">
                 <h1>Shopping Cart ({sessionStorage.getItem("cartCount")})</h1>
-                <form id="add-product-form" onSubmit={handleCheckOut}>
+                <form id="cart-add-form" onSubmit={handleCheckOut}>
                     <div id="cart-list">
                         {products.map((product) => {
                             return (
