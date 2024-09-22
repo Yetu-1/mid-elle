@@ -30,7 +30,7 @@ app.get("/api/url", async (req, res) => {
 });
 
 app.post("/api/product/add", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const product = await genProductUrls(req.body);
   const img_urls = await addProductToDB(product);
   console.log("Sending image urls");
@@ -40,14 +40,14 @@ app.post("/api/product/add", async (req, res) => {
 app.post("/api/products", async (req, res) => {
   const product = req.body;
   const products = await getProducts(product.type);
-  console.log(products)
+  // console.log(products)
   res.json(products);
 })
 
 app.post("/api/product", async (req, res) => {
-  console.log(req.body.id);
+  // console.log(req.body.id);
   const product = await getProductInfo(req.body.id);
-  console.log(product)
+  // console.log(product)
   res.json(product);
 })
 

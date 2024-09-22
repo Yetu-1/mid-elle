@@ -15,7 +15,7 @@ export function ProductCard (props: {rating: number, price: string, name: string
             <img src={props.image} alt={props.name} className="product-image" />
             <div className="image-mask"></div>
             <p className="product-name">{props.name}</p>
-            <p className="product-price">₦{(props.price).toLocaleString()}</p>
+            <p className="product-price">₦{parseFloat(props.price).toLocaleString()}</p>
             <div className="product-rating">
                 {
                     Array.from({ length: props.rating }).map((_, index) => (
@@ -23,8 +23,6 @@ export function ProductCard (props: {rating: number, price: string, name: string
                     ))
                 }
             </div>
-            {/* <img src="Heartbeat-Necklace.jpg" alt="butterfly necklace" />
-            <img src="Acrylic-Rings.jpg" alt="butterfly necklace" /> */}
         </div>
     )
 }

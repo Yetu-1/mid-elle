@@ -19,6 +19,7 @@ const rating = 3;
 
 export function ProductPage() {
     const {id} = useParams();
+    console.log(useParams())
     const [currImage, setCurrImage] = useState("");
     const [itemCount, setItemCount] = useState(0);
     const [product, setProduct] = useState<ProductInfo>(
@@ -41,7 +42,7 @@ export function ProductPage() {
                 // send a get request to the server with a payload contains the type of product
                 const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/product`, { id: id });
 
-                console.log(response.data);
+                // console.log(response.data);
                 setProduct(response.data)
                 setCurrImage(response.data.images[0])
             }catch (err) {
@@ -81,7 +82,7 @@ export function ProductPage() {
                 <h1 id="product-name" style={{fontWeight: "bold"}}>{product.name}</h1>
                 <p>{product.description}</p>
                 <div className="price-discount">
-                    <h2 id="price">₦{(product.price).toLocaleString()}</h2>
+                    <h2 id="price">₦{parseFloat(product.price).toLocaleString()}</h2>
                     <div className="discount">
                         <p>50%</p>
                     </div>

@@ -15,17 +15,19 @@ export function NavBar() {
   
         <div className='nav-list'>
           <div className="profile-button">
-            <img src="/search.svg" alt="profile image" style={{width: "35px"}}/>
+          <img src="/search.svg" alt="search icon" style={{width: "35px"}}/>
           </div>
           {(sessionStorage.getItem("token"))? <AvatarButton /> : <UserAccountButton />}
-          <div id="cart-button">
-          {(sessionStorage.getItem("cartCount") == null)? "" :
-            <div id="cart-item-count">
-              <p>{sessionStorage.getItem("cartCount")}</p>
+          <Link to="/cart" id="cart">
+            <div id="cart-button">
+                {(sessionStorage.getItem("cartCount") == null)? "" :
+                  <div id="cart-item-count">
+                    <p>{sessionStorage.getItem("cartCount")}</p>
+                  </div>
+                }
+              <img src={cartIcon}  alt="cart icon" style={{width: "25px"}}/>
             </div>
-          }
-            <img src={cartIcon}  alt="cart icon" style={{width: "25px"}}/>
-          </div>
+          </Link>
         </div>
       </div>
     )

@@ -6,6 +6,7 @@ import { SignUpPage } from './screens/SignUpPage'
 import { LoginPage } from './screens/LoginPage'
 import { NavBar } from './components/NavBar'
 import { AddProductPage } from './screens/AddProductPage'
+import { CartPage } from './screens/CartPage'
 import './App.css'
 
 function App() {
@@ -67,6 +68,14 @@ function App() {
             <ProductPage />
           </div>
         }/>
+
+        <Route path='/cart' element={
+          <div className='container'>
+            <NavBar />
+            <CartPage />
+          </div>
+        }/>
+
         <Route path='*' element={
           <div className='container'>
             <NavBar />

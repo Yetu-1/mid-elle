@@ -1,0 +1,16 @@
+.cart-card {
+    display: flex;
+    gap: 20px;
+}
+
+.thumbnail-cart-image {
+    width: 100px;
+    height: 100px;
+}
+
+.cart-producdt-info-card {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    gap: 20px;
+}
