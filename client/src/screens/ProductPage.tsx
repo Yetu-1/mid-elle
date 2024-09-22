@@ -19,7 +19,6 @@ const rating = 3;
 
 export function ProductPage() {
     const {id} = useParams();
-    console.log(useParams())
     const [currImage, setCurrImage] = useState("");
     const [itemCount, setItemCount] = useState(0);
     const [product, setProduct] = useState<ProductInfo>(
@@ -41,7 +40,6 @@ export function ProductPage() {
             try {
                 // send a get request to the server with a payload contains the type of product
                 const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/product`, { id: id });
-
                 // console.log(response.data);
                 setProduct(response.data)
                 setCurrImage(response.data.images[0])
@@ -53,12 +51,18 @@ export function ProductPage() {
         getProduct();
     }, []);
 
-    function increaseItems() {
-        setItemCount(itemCount+1)
-    }
-
-    function decreaseItems() {
-        setItemCount(itemCount-1)
+    async function handleAddToCart() {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+        };
+        try{
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/cart/add`, { product_id: id, qty: itemCount }, config);
+            console.log(response.data);
+        }catch (err) {
+            console.log(err);
+        }
     }
 
     return (
@@ -100,18 +104,23 @@ export function ProductPage() {
 
                 <div className="buy">
                     <div id="add-more">
-                        <div id="minus-button" onClick={decreaseItems}>
+                        <div id="minus-button" onClick={() => {
+                            if((itemCount - 1) < 0)
+                                setItemCount(0)
+                            else
+                                setItemCount(itemCount - 1)
+                        }}>
                             <img src="/icon-minus.svg"  alt="plus icon" />
                         </div>
 
                         <p style={{color: "black", fontWeight: "bold"}}>{itemCount}</p>
 
-                        <div id="add-button" onClick={increaseItems}>
+                        <div id="add-button" onClick={() => setItemCount(itemCount + 1)}>
                             <img src="/icon-plus.svg" alt="minus icon" />
                         </div>
                     </div>
 
-                    <div id="add-to-cart">
+                    <div id="add-to-cart" onClick={handleAddToCart}>
                         <img src="/icon-cart-white.svg"  alt="cart icon"/>
                         <p style={{color: "white", fontWeight: "bold"}}>Add to cart</p>
                     </div>

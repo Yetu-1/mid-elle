@@ -4,31 +4,31 @@ import { ProductCard } from "../components/ProductCard"
 const products = [
     {
         name: "Stainless Steel Geometric Rings",
-        price: 3500,
+        price: '3500',
         image: "Stainless-Steel-Geometric-Rings.jpg",
         rating: 4,
-        id: 5234
+        id: '5234'
     },
     {
         name: "Heartbeat Necklace",
-        price: 5500,
+        price: '5500',
         image: "Heartbeat-Necklace.jpg",
         rating: 3,
-        id: 6435
+        id: '6435'
     },
     {
         name: "Acrylic Rings",
-        price: 3500,
+        price: '3500',
         image: "Acrylic-Rings.jpg",
         rating: 5,
-        id: 2046
+        id: '2046'
     },
     {
         name: "Opal Oval Necklace Stainless Steel Gold Color ",
-        price: 3250,
+        price: '3250',
         image: "Opal-Oval-Necklace.jpg",
         rating: 4,
-        id: 7893
+        id: '7893'
     }
 ]
 

@@ -19,7 +19,7 @@ export function LoginPage() {
             
             if(response.data.token) {
                 sessionStorage.setItem("firstname", response.data.firstname);
-                sessionStorage.setItem("token", response.data.jwt);
+                sessionStorage.setItem("token", response.data.token);
                 sessionStorage.setItem("cartCount", "9");
                 navigate("/");
             }else if (response.data == "Incorrect password") { // incorrect password

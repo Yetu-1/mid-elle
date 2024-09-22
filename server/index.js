@@ -29,8 +29,7 @@ app.get("/api/url", async (req, res) => {
   res.send(url);
 });
 
-app.post("/api/product/add", async (req, res) => {
-  // console.log(req.body);
+app.post("/api/product/add", authenticate, async (req, res) => {
   const product = await genProductUrls(req.body);
   const img_urls = await addProductToDB(product);
   console.log("Sending image urls");
@@ -51,6 +50,10 @@ app.post("/api/product", async (req, res) => {
   res.json(product);
 })
 
+app.post("/api/cart/add", authenticate, async (req, res) => {
+  res.json(req.body);
+})
+
 
 app.post("/register", async (req, res) => {
   const response = await createNewUser(req.body);
@@ -66,12 +69,13 @@ app.post("/login", async (req, res) => {
 function authenticate(req, res, next) {
     const authHeader = req.headers['authorization']
     // Bearer Token
-    const token = authHeader && authHeader.split(' ')[1];
-
-    if(token == null) return res.sendStatus(401);
+    const token = authHeader && authHeader.split(' ')[1]; // this makes sure if authHeader is undefined, this will safely return undefined
+    if(token == 'null') {
+      return res.send("Unauthorized request");
+    }
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) =>{
-        if(err) res.sendStatus(403);
+        if(err) return res.send("Invalid token");
         req.user = user;
         next();
     })
