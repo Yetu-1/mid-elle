@@ -59,7 +59,9 @@ export function ProductPage() {
         };
         try{
             const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/cart/add`, { product_id: id, qty: itemCount }, config);
+            sessionStorage.setItem("cartCount", response.data.cart_count);
             console.log(response.data);
+            window.location.reload();
         }catch (err) {
             console.log(err);
         }

@@ -203,12 +203,13 @@ async function getProductInfo(id) {
 
 async function addItemToCart(user_id, product) {
     try{
-        // add product to database
+        // add product to cart and return new cart count
         await db.query(
             "INSERT INTO carts (user_id, product_id, qty) VALUES ($1, $2, $3)",
             [user_id, product.product_id, product.qty]
         );
-        return "Item Successfully Added to Cart"
+        const cart_count = await getCartCount(user_id);
+        return {cart_count: cart_count};
     }catch (err){
         console.log(err);
         return "Error Adding product"

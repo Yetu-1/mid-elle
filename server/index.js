@@ -52,8 +52,8 @@ app.post("/api/product", async (req, res) => {
 
 app.post("/api/cart/add", authenticate, async (req, res) => {
   const product = req.body;
-  const response = await addItemToCart(req.user.user_id, product);
-  res.send(response);
+  const cart_count = await addItemToCart(req.user.user_id, product); //returns cart count
+  res.json(cart_count);
 })
 
 
