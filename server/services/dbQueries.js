@@ -99,11 +99,9 @@ async function verifyUser(profile) {
 
             if(result) {
                 try {
-                    const response = await db.query("SELECT * FROM users WHERE email = $1", [
-                        email,
-                    ]);
-                    const user = response.rows[0];
-                    return {token: access_token, firstname: user.firstname, lastname: user.lastname};
+                    const cart_count = await getCartCount(user.user_id);
+
+                    return {token: access_token, firstname: user.firstname, lastname: user.lastname, cart_count: cart_count};
                 }catch{
                     return "Error fetching jwt";
                 }
@@ -142,6 +140,16 @@ async function generateAccessToken(refresh_token) {
         }
     }catch{
         return "Error fetching jwt";
+    }
+}
+
+async function getCartCount(user_id) {
+    try {
+        const response = await db.query("SELECT * FROM carts WHERE user_id = $1", [user_id]);
+        return (response.rows.length);
+    }catch(err) {
+        console.log(err);
+        return "Error getting cart count"
     }
 }
 
@@ -193,4 +201,18 @@ async function getProductInfo(id) {
     }
 }
 
-export { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo};
+async function addItemToCart(user_id, product) {
+    try{
+        // add product to database
+        await db.query(
+            "INSERT INTO carts (user_id, product_id, qty) VALUES ($1, $2, $3)",
+            [user_id, product.product_id, product.qty]
+        );
+        return "Item Successfully Added to Cart"
+    }catch (err){
+        console.log(err);
+        return "Error Adding product"
+    }   
+}
+
+export { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo, addItemToCart };

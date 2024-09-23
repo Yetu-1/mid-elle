@@ -20,7 +20,7 @@ export function LoginPage() {
             if(response.data.token) {
                 sessionStorage.setItem("firstname", response.data.firstname);
                 sessionStorage.setItem("token", response.data.token);
-                sessionStorage.setItem("cartCount", "9");
+                sessionStorage.setItem("cartCount", response.data.cart_count);
                 navigate("/");
             }else if (response.data == "Incorrect password") { // incorrect password
                 setIsPWCorrect(false);
