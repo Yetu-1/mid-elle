@@ -65,14 +65,14 @@ async function createNewUser(user) {
                 console.log(err);
                 return ("Error saving jwt!")
             }
-            return (200)
+            return "Success"
           }catch {
             console.log(err)
             return ("Error hashing password: ");
           }
         }
     } catch (err) {
-        return (400);
+        return "Error";
     }
 }
 
@@ -216,4 +216,30 @@ async function addItemToCart(user_id, product) {
     }   
 }
 
-export { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo, addItemToCart };
+async function fetchCart(user_id) {
+    try {
+        const response = await db.query("SELECT product_id FROM carts WHERE user_id=$1", [user_id]);
+        const products = await fetchProducts(response.rows);
+        return products;
+    }catch(err) {
+        console.log(err);
+        return "Error getting cart count"
+    }  
+}
+
+async function fetchProducts(products) {
+    const result = []
+    try {
+        for(let i = 0; i < products.length; i++ ) {
+            const response = await db.query("SELECT * FROM products WHERE product_id=$1", [products[i].product_id]);
+            if(response.rows.length > 0)
+                result.push(response.rows[0]);
+        }
+        return result;
+    }catch(err) {
+        console.log(err);
+        return "Error fetching products"
+    }  
+}
+
+export { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo, addItemToCart, fetchCart };

@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors"
 import env from "dotenv"
 import jwt from "jsonwebtoken"
-import { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo, addItemToCart } from "./services/dbQueries.js";
+import { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo, addItemToCart, fetchCart } from "./services/dbQueries.js";
 import { genProductUrls } from "./services/cloudStorage.js";
 
 const app = express();
@@ -29,6 +29,11 @@ app.get("/api/url", async (req, res) => {
   res.send(url);
 });
 
+app.get("/api/cart/fetch", authenticate, async (req, res) => {
+  const cart = await fetchCart(req.user.user_id); //returns cart count
+  res.json(cart);
+})
+
 app.post("/api/product/add", authenticate, async (req, res) => {
   const product = await genProductUrls(req.body);
   const img_urls = await addProductToDB(product);
@@ -52,10 +57,10 @@ app.post("/api/product", async (req, res) => {
 
 app.post("/api/cart/add", authenticate, async (req, res) => {
   const product = req.body;
+  console.log(product);
   const cart_count = await addItemToCart(req.user.user_id, product); //returns cart count
   res.json(cart_count);
 })
-
 
 app.post("/register", async (req, res) => {
   const response = await createNewUser(req.body);

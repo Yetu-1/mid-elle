@@ -11,7 +11,7 @@ export function CartProductCard(props : {name: string, price: number, qty: numbe
                 <p style={{fontWeight: "bold", color: "black"}}>{props.name}</p>
                 <div style={{display: "flex", justifyContent: "space-between"}}>
                     <p>₦ {(props.price).toLocaleString()}</p>
-                    <p>{props.qty}</p>
+                    <p>Qty: {props.qty}</p>
                 </div>
             </div>
         </div>

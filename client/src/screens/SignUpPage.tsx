@@ -14,11 +14,11 @@ export function SignUpPage() {
         e.preventDefault();
 
         try {
-            // send a post request to the server with a payload that includes firstname, lastname, email and password
+            // send a post request to the server with a payload that includes firstname, lastname, email and password to create user account
             const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/register`, {firstname: firstname, lastname: lastname, email: email, password: password});
             console.log(response.data);
             
-            if(response.data == 'OK' || response.data == "Email exists") {
+            if(response.data == 'Success' || response.data == "Email exists") {
                 navigate("/login");
             }
         } catch (error) {

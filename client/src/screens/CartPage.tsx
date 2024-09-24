@@ -1,74 +1,68 @@
 import { FormEvent, useEffect, useState } from "react"
 import { CartProductCard } from "../components/CartProductCard"
+import axios from "axios"
 import "./CartPage.css"
 
-const products = [
-    {
-        name: "Stainless Steel Geometric Rings",
-        price: 3500,
-        image: "Stainless-Steel-Geometric-Rings.jpg",
-        qty: 2,
-        id: '5234'
-    },
-    {
-        name: "Heartbeat Necklace",
-        price: 5500,
-        image: "Heartbeat-Necklace.jpg",
-        qty: 2,
-        id: '6435'
-    },
-    {
-        name: "Acrylic Rings",
-        price: 3500,
-        image: "Acrylic-Rings.jpg",
-        qty: 2,
-        id: '2046'
-    },
-    {
-        name: "Opal Oval Necklace Stainless Steel Gold Color ",
-        price: 3250,
-        image: "Opal-Oval-Necklace.jpg",
-        qty: 2,
-        id: '7893'
-    },
-    {
-        name: "Stainless Steel Geometric Rings",
-        price: 3500,
-        image: "Stainless-Steel-Geometric-Rings.jpg",
-        qty: 2,
-        id: '5233'
-    }
-    ,
-    {
-        name: "Opal Oval Necklace Stainless Steel Gold Color ",
-        price: 3250,
-        image: "Opal-Oval-Necklace.jpg",
-        qty: 2,
-        id: '78943'
-    },
-    {
-        name: "Stainless Steel Geometric Rings",
-        price: 3500,
-        image: "Stainless-Steel-Geometric-Rings.jpg",
-        qty: 2,
-        id: '52334'
-    }
-]
 type ItemChecked = {
     id: string 
     checked: boolean
     price: number
 }
+
+type Product = {
+    id: number,
+    product_id: string
+    name: string
+    type: string
+    brand: string
+    description: string
+    price: string
+    discount: string
+    images: string[]
+}
+
 export function CartPage() {
     const [itemStatus, setItemStatus] = useState<ItemChecked[]>([])
-    const [totalBill, setTotalBill] = useState(0);
+    const [products, setProducts] = useState<Product[]>([{
+        id: 0,
+        product_id: "XX",
+        name: "XX",
+        type: "XX",
+        brand: "XX",
+        description: "XX",
+        price: "XX",
+        discount: "XX",
+        images: []
+    }]);
 
+    const [totalBill, setTotalBill] = useState(0);
+    
+    const config = {
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+    };
     useEffect(()=> {
-        let states:ItemChecked[] = [];
-        products.forEach(item => {
-            states.push({id: item.id, checked: false, price: item.price});
-        })
-        setItemStatus(states);
+        async function getProducts() {
+            if(sessionStorage.getItem("token")) {
+                try {
+                    // send a get request to the server with a payload contains the type of product
+                    const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/cart/fetch`, config);
+        
+                    console.log(response.data);
+                    setProducts(response.data)
+                    // loop through all the products in the cart and create a list of status objects type: ItemChecked
+                    let states:ItemChecked[] = [];
+                    response.data.forEach((item: Product) => {
+                        states.push({id: item.product_id, checked: false, price: parseFloat(item.price)});
+                    })
+                    setItemStatus(states);
+                }catch (err) {
+                    console.log(err);
+                }
+            }
+        }
+        getProducts();
     }, []);
 
     function handleCheckOut(e: FormEvent) {
@@ -90,7 +84,6 @@ export function CartPage() {
                         return preVal + item.price
                     });
                 }
-                console.log("here")
                return (item.id == id)? { ...item, checked: state } : item
             })
         });
@@ -104,10 +97,10 @@ export function CartPage() {
                     <div id="cart-list">
                         {products.map((product) => {
                             return (
-                                <div className="cart-item" key={`${product.id}`}>
-                                    <input type="checkbox" className="check-box" name="vehicle2" onChange={ (e) => handleChange(product.id, e.target.checked)}></input>
+                                <div className="cart-item" key={`${product.product_id}`}>
+                                    <input type="checkbox" className="check-box" name="vehicle2" onChange={ (e) => handleChange(product.product_id, e.target.checked)}></input>
                                     <label htmlFor="vehicle2"> 
-                                        <CartProductCard image={product.image} name={product.name} price={product.price} qty={3} id={product.id}/>
+                                        <CartProductCard image={product.images[0]} name={product.name} price={parseFloat(product.price)} qty={3} id={product.product_id}/>
                                     </label>
                                 </div>
                             )
@@ -119,15 +112,15 @@ export function CartPage() {
                 <h1>Summary</h1>
                 <div className="summary-item">
                     <p>Subtotal</p>
-                    <p>₦ {totalBill}</p>
+                    <p>₦ {totalBill.toLocaleString()}</p>
                 </div>
                 <div className="summary-item">
                     <p>Shipping fee</p>
-                    <p>₦ 1500</p>
+                    <p>₦ {(1500).toLocaleString()}</p>
                 </div>
                 <div className="summary-item">
                     <p style={{fontWeight: "bold", lineHeight: "20px"}}>Total</p>
-                    <p style={{fontSize: "20px", fontWeight: "bold", color: "black"}}>₦ {totalBill + 1500}</p>
+                    <p style={{fontSize: "20px", fontWeight: "bold", color: "black"}}>₦ {(totalBill + 1500).toLocaleString()}</p>
                 </div>
                 <button form="add-product-form" className="checkout-button" type="submit" style={{width: "100%"}}>Checkout</button>
             </div>
