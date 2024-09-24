@@ -3,12 +3,31 @@ import { CartProductCard } from "../components/CartProductCard"
 import axios from "axios"
 import "./CartPage.css"
 import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
+import { v4 as uuidv4 } from 'uuid';
 
 type ItemChecked = {
     id: string 
     checked: boolean
     price: number
 }
+
+// {
+//     "status": "completed",
+//     "customer": {
+//         "name": "Barry null",
+//         "email": "davidsalihu19@gmail.com",
+//         "phone_number": "09040293418"
+//     },
+//     "transaction_id": 6919452,
+//     "tx_ref": "9784a92b-9f0b-49ee-aad9-c6ee812225fe",
+//     "flw_ref": "MockFLWRef-1727206398707",
+//     "currency": "NGN",
+//     "amount": 5325,
+//     "charged_amount": 5325,
+//     "charge_response_code": "00",
+//     "charge_response_message": "Approved Successful",
+//     "created_at": "2024-09-24T19:33:18.000Z"
+// }
 
 type Product = {
     id: number,
@@ -38,7 +57,7 @@ export function CartPage() {
 
     const token = sessionStorage.getItem("token");
     const user = {
-        email: (token)? sessionStorage.getItem("email") : "",
+        email: (token)? sessionStorage.getItem("email") : "null",
         name: (token)? `${sessionStorage.getItem("firstname")} ${sessionStorage.getItem("lastname")}` : "",
         phone_number: '09040293418',
     }
@@ -50,12 +69,12 @@ export function CartPage() {
 
     const fw_config = {
         public_key: import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY,
-        tx_ref: "test-tx-ref-48981487343M8I0NzMx",
+        tx_ref: uuidv4(),
         amount: (totalBill + 1500),
         currency: 'NGN',
         payment_options: 'card,mobilemoney,ussd',
         customer: {
-            email: user.email,
+            email: (user.email)? user.email : "",
             phone_number: user.phone_number,
             name: user.name,
         },
@@ -98,13 +117,19 @@ export function CartPage() {
 
     function handleCheckOut(e: FormEvent) {
         e.preventDefault();
-        console.log(import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY);
         handleFlutterPayment({
               callback: (response) => {
-                 console.log(response);
+                //  console.log(response);
+                 if(response.status == 'completed') {
+                    console.log("Transaction successful")
+                 }else {
+                    console.log("Transaction failed");
+                 }
                   closePaymentModal() // this will close the modal programmatically
               },
-              onClose: () => {},
+              onClose: () => {
+                console.log("User close checkout")
+              },
         });
 
         console.log("submitted")

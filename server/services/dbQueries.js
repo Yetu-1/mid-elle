@@ -101,7 +101,7 @@ async function verifyUser(profile) {
                 try {
                     const cart_count = await getCartCount(user.user_id);
 
-                    return {token: access_token, firstname: user.firstname, lastname: user.lastname, cart_count: cart_count, email: user.email};
+                    return {user_id: user.user_id, token: access_token, firstname: user.firstname, lastname: user.lastname, cart_count: cart_count, email: user.email};
                 }catch{
                     return "Error fetching jwt";
                 }
