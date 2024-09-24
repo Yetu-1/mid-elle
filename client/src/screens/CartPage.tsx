@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from "react"
 import { CartProductCard } from "../components/CartProductCard"
 import axios from "axios"
 import "./CartPage.css"
+import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 
 type ItemChecked = {
     id: string 
@@ -35,7 +36,37 @@ export function CartPage() {
         images: []
     }]);
 
+    const token = sessionStorage.getItem("token");
+    const user = {
+        email: (token)? sessionStorage.getItem("email") : "",
+        name: (token)? `${sessionStorage.getItem("firstname")} ${sessionStorage.getItem("lastname")}` : "",
+        phone_number: '09040293418',
+    }
+
+    // const email = 'davidsalihu@gmail.com'
+    // const name = "David Salihu"
+    // const phone_number = '09040293418'
     const [totalBill, setTotalBill] = useState(0);
+
+    const fw_config = {
+        public_key: import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY,
+        tx_ref: "test-tx-ref-48981487343M8I0NzMx",
+        amount: (totalBill + 1500),
+        currency: 'NGN',
+        payment_options: 'card,mobilemoney,ussd',
+        customer: {
+            email: user.email,
+            phone_number: user.phone_number,
+            name: user.name,
+        },
+        customizations: {
+          title: 'MID-ELLE',
+          description: 'Payment for items in cart',
+          logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+        },
+    };
+
+    const handleFlutterPayment = useFlutterwave(fw_config);
     
     const config = {
         headers: {
@@ -67,6 +98,14 @@ export function CartPage() {
 
     function handleCheckOut(e: FormEvent) {
         e.preventDefault();
+        console.log(import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY);
+        handleFlutterPayment({
+              callback: (response) => {
+                 console.log(response);
+                  closePaymentModal() // this will close the modal programmatically
+              },
+              onClose: () => {},
+        });
 
         console.log("submitted")
         console.log(itemStatus)
@@ -122,7 +161,7 @@ export function CartPage() {
                     <p style={{fontWeight: "bold", lineHeight: "20px"}}>Total</p>
                     <p style={{fontSize: "20px", fontWeight: "bold", color: "black"}}>₦ {(totalBill + 1500).toLocaleString()}</p>
                 </div>
-                <button form="add-product-form" className="checkout-button" type="submit" style={{width: "100%"}}>Checkout</button>
+                <button form="add-product-form" className="checkout-button" type="submit" style={{width: "100%"}} onClick={handleCheckOut}>Checkout</button>
             </div>
         </div>
 
