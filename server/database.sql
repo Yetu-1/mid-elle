@@ -32,3 +32,13 @@ CREATE TABLE carts (
     qty INTEGER,
     user_id uuid REFERENCES users(user_id) ON DELETE CASCADE -- on delete cascade is to ensure if the user is deleted the entries on this table are also deleted
 )
+
+-- create orders table
+CREATE TABLE orders (
+    trans_id INTEGER,
+    trans_ref uuid,
+    amount INTEGER,
+    details text,
+    user_id uuid REFERENCES users(user_id),
+    status VARCHAR(10)
+)

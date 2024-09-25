@@ -9,6 +9,7 @@ type ItemChecked = {
     id: string 
     checked: boolean
     price: number
+    qty: number
 }
 
 // {
@@ -39,6 +40,7 @@ type Product = {
     price: string
     discount: string
     images: string[]
+    qty: number
 }
 
 export function CartPage() {
@@ -52,19 +54,17 @@ export function CartPage() {
         description: "XX",
         price: "XX",
         discount: "XX",
-        images: []
+        images: [],
+        qty: 0
     }]);
 
     const token = sessionStorage.getItem("token");
     const user = {
         email: (token)? sessionStorage.getItem("email") : "null",
         name: (token)? `${sessionStorage.getItem("firstname")} ${sessionStorage.getItem("lastname")}` : "",
-        phone_number: '09040293418',
+        phone_number: '090xxxxxxxx',
     }
 
-    // const email = 'davidsalihu@gmail.com'
-    // const name = "David Salihu"
-    // const phone_number = '09040293418'
     const [totalBill, setTotalBill] = useState(0);
 
     const fw_config = {
@@ -104,7 +104,7 @@ export function CartPage() {
                     // loop through all the products in the cart and create a list of status objects type: ItemChecked
                     let states:ItemChecked[] = [];
                     response.data.forEach((item: Product) => {
-                        states.push({id: item.product_id, checked: false, price: parseFloat(item.price)});
+                        states.push({id: item.product_id, checked: false, price: parseFloat(item.price), qty: item.qty});
                     })
                     setItemStatus(states);
                 }catch (err) {
@@ -114,14 +114,42 @@ export function CartPage() {
         }
         getProducts();
     }, []);
-
+    
+    function getOrderedProducts() {
+        let ordered_products: any = [];
+        itemStatus.forEach(item => {
+            if(item.checked == true) {
+                // construct an object of the product id and quantity of product
+                ordered_products.push({id: item.id, qty: item.qty})
+            }
+        })
+        return ordered_products;
+    }
     function handleCheckOut(e: FormEvent) {
         e.preventDefault();
         handleFlutterPayment({
-              callback: (response) => {
+              callback: async (response) => {
                 //  console.log(response);
                  if(response.status == 'completed') {
+                    const products_details = getOrderedProducts();
                     console.log("Transaction successful")
+                    let payload = {
+                        user_id: sessionStorage.getItem("user_id"),
+                        trans_ref: response.tx_ref,
+                        trans_id: response.transaction_id,
+                        amount: response.amount,
+                        products: products_details,
+                    }
+                    console.log(payload);
+                    try {
+                        // construct transaction object that incluede user id, trans id, trans ref, amount, product ids and quantity
+                        const resp = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/orders/add`, payload, config)
+                        window.location.reload();
+                    }catch (err) {
+                        console.log("Error sending transactions to the server");
+                    }
+                    // send an email or whatsapp message to admin that include invoice
+                    // send an email to user that includes the invoice
                  }else {
                     console.log("Transaction failed");
                  }
@@ -141,11 +169,11 @@ export function CartPage() {
             return preValue.map(item => {
                 if(item.id == id && item.checked == true && state == false) { // if item was checked before but is now unchecked, substract it's price from the total bill
                     setTotalBill((preVal) => {
-                        return preVal - item.price
+                        return preVal - ((item.price) * item.qty) // subtract total for product (i.e product price multipled by it's quantity)
                     }); 
                 }else if(item.id == id && item.checked == false && state == true) { // if item was not checked before but is now checked, add it's price from the total bill
                     setTotalBill((preVal) => {
-                        return preVal + item.price
+                        return preVal + ((item.price) * item.qty) // add total for product (i.e product price multipled by it's quantity)
                     });
                 }
                return (item.id == id)? { ...item, checked: state } : item
@@ -164,7 +192,7 @@ export function CartPage() {
                                 <div className="cart-item" key={`${product.product_id}`}>
                                     <input type="checkbox" className="check-box" name="vehicle2" onChange={ (e) => handleChange(product.product_id, e.target.checked)}></input>
                                     <label htmlFor="vehicle2"> 
-                                        <CartProductCard image={product.images[0]} name={product.name} price={parseFloat(product.price)} qty={3} id={product.product_id}/>
+                                        <CartProductCard image={product.images[0]} name={product.name} price={parseFloat(product.price)} qty={product.qty} id={product.product_id}/>
                                     </label>
                                 </div>
                             )

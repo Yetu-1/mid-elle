@@ -218,7 +218,7 @@ async function addItemToCart(user_id, product) {
 
 async function fetchCart(user_id) {
     try {
-        const response = await db.query("SELECT product_id FROM carts WHERE user_id=$1", [user_id]);
+        const response = await db.query("SELECT * FROM carts WHERE user_id=$1", [user_id]);
         const products = await fetchProducts(response.rows);
         return products;
     }catch(err) {
@@ -231,9 +231,9 @@ async function fetchProducts(products) {
     const result = []
     try {
         for(let i = 0; i < products.length; i++ ) {
-            const response = await db.query("SELECT * FROM products WHERE product_id=$1", [products[i].product_id]);
+            let response = await db.query("SELECT * FROM products WHERE product_id=$1", [products[i].product_id]);
             if(response.rows.length > 0)
-                result.push(response.rows[0]);
+                result.push({...response.rows[0], qty: products[i].qty });
         }
         return result;
     }catch(err) {
@@ -242,4 +242,38 @@ async function fetchProducts(products) {
     }  
 }
 
-export { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo, addItemToCart, fetchCart };
+async function removeProductsFromCart(products, user_id) {
+    try {
+        for(let i = 0; i < products.length; i++ ) {
+            let response = await db.query("DELETE FROM carts WHERE product_id=$1 AND user_id=$2", [products[i].id, user_id]);
+        }
+        return "Products removed from cart";
+    }catch(err) {
+        console.log(err);
+        return "Error removing products from cart"
+    }     
+}
+
+async function  addOrderToTable(order) {
+    console.log(order);
+    const products = order.products;
+    let order_details = ""
+    // construct products detail string 
+    products.forEach((product)=> {
+        order_details += `{id: ${product.id}, qty: ${product.qty}}` + ', '
+    });   
+    console.log(order_details);
+    try{
+        // add product to cart and return new cart count
+        await db.query(
+            "INSERT INTO orders (user_id, trans_ref, trans_id, amount, details, status) VALUES ($1, $2, $3, $4, $5, $6)",
+            [order.user_id, order.trans_ref, order.trans_id, order.amount, order_details, "pending"]
+        );
+        return "Order successfully added to table"
+    }catch (err){
+        console.log(err);
+        return "Error Adding product"
+    } 
+}
+
+export { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo, addItemToCart, fetchCart, removeProductsFromCart, addOrderToTable};

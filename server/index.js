@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors"
 import env from "dotenv"
 import jwt from "jsonwebtoken"
-import { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo, addItemToCart, fetchCart } from "./services/dbQueries.js";
+import { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo, addItemToCart, fetchCart, removeProductsFromCart, addOrderToTable } from "./services/dbQueries.js";
 import { genProductUrls } from "./services/cloudStorage.js";
 
 const app = express();
@@ -41,6 +41,16 @@ app.post("/api/product/add", authenticate, async (req, res) => {
   res.json({img_urls: img_urls});
 });
 
+app.post("/api/orders/add", authenticate, async (req, res) => {
+  // console.log(req.body);
+  // remove products from cart
+  let response = await removeProductsFromCart(req.body.products, req.body.user_id);
+  console.log(response);
+  response = await addOrderToTable(req.body);
+  console.log(response);
+  res.sendStatus(200);
+});
+
 app.post("/api/products", async (req, res) => {
   const product = req.body;
   const products = await getProducts(product.type);
@@ -57,7 +67,7 @@ app.post("/api/product", async (req, res) => {
 
 app.post("/api/cart/add", authenticate, async (req, res) => {
   const product = req.body;
-  console.log(product);
+  // console.log(product);
   const cart_count = await addItemToCart(req.user.user_id, product); //returns cart count
   res.json(cart_count);
 })
