@@ -34,10 +34,10 @@ const products = [
 
 export function HomePage() {
     return (
-        <div className='container'>
+        <div className='my-container'>
             <div className="banner">
                 <div className="banner-text">
-                    <h1>Classic & Elegant</h1>
+                    <h1 className="heading-text">Classic & Elegant</h1>
                     <p>Adorn yourself with timeless beauty - simple, sophisticated, and effortlessly stunning. More than just jewelry, it's a reflection of your elegance</p>
                     <div id="shop-button">
                         <p>SHOP NOW</p>
@@ -47,7 +47,7 @@ export function HomePage() {
             </div>
 
             <div className="popular-products">
-                <h1>Most-Loved Products</h1>
+                <h1 className="heading-text">Most-Loved Products</h1>
                 <div className="products">
                     {products.map((product, index) => {
                         return (
@@ -55,6 +55,12 @@ export function HomePage() {
                         )
                     })}
                 </div>
+            </div>
+
+            <div id="instagram-container">
+                <h1 className="heading-text">Shop Our Instagram</h1>
+
+                <p>Become part of the Mid-elle family on Instagram and show off your fave jewelry by using the hashtag:</p>
             </div>
             
 

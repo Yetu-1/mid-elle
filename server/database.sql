@@ -35,10 +35,11 @@ CREATE TABLE carts (
 
 -- create orders table
 CREATE TABLE orders (
+    id SERIAL,
     trans_id INTEGER,
     trans_ref uuid,
     amount INTEGER,
     details text,
-    user_id uuid REFERENCES users(user_id),
+    user_id uuid REFERENCES users(user_id)  ON DELETE CASCADE ,
     status VARCHAR(10)
 )

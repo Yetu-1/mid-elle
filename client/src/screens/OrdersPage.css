@@ -64,3 +64,13 @@
     @apply bg-background text-foreground;
   }
 }
+.orders-container {
+    margin-top: 60px;
+}
+
+.orders-heading-text {
+    font-family: 'monglan';
+    font-weight: 400;
+    color:rgb(47, 47, 47);
+    font-size: 40px;
+}

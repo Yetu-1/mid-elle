@@ -276,4 +276,15 @@ async function  addOrderToTable(order) {
     } 
 }
 
-export { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo, addItemToCart, fetchCart, removeProductsFromCart, addOrderToTable};
+async function fetchOrders() {
+    try {
+        const response = await db.query("SELECT * FROM orders ORDER BY id DESC ");
+        const orders = response.rows;
+        return orders;
+    }catch(err) {
+        console.log(err);
+        return "Error fetching orders"
+    }      
+}
+
+export { verifyUser, createNewUser, addProductToDB, getProducts, getProductInfo, addItemToCart, fetchCart, removeProductsFromCart, addOrderToTable, fetchOrders};

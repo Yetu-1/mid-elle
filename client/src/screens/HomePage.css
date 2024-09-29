@@ -17,7 +17,7 @@
     width: 420px;
 }
 
-h1 {
+.heading-text {
     font-family: 'monglan';
     font-weight: 400;
     font-size: 65px;
@@ -54,4 +54,16 @@ h1 {
     flex-wrap: wrap;
     justify-content: center;
     gap: 40px;
+}
+
+#instagram-container {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#instagram-container h1 {
+    font-size: 50px;
 }

@@ -7,6 +7,7 @@
 }
 
 .form-container h1 {
+    font-family: 'monglan';
     font-size: 28px;
 }
 
@@ -48,6 +49,7 @@
     width: 450px;
     height: 52px;
     outline: none;
+    font-size: smaller;
     padding-left: 23px;
     padding-right: 23px;
     border: solid 2px #E8E8E8;

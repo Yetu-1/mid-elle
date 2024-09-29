@@ -5,7 +5,7 @@ body {
   margin: 0px;
 }
 
-.container {
+.my-container {
   width: 100%;
 }
 
@@ -60,7 +60,7 @@ body {
   height: 40px;
 }
 
-.top {
+.top-element {
   z-index: 9;
 }
 
@@ -89,7 +89,7 @@ body {
   visibility: hidden;
   position: absolute;
   top: 40px;
-  left: -110px;
+  left: -105px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -99,9 +99,12 @@ body {
   align-items: center;
   justify-content: center;
 }
+.dropdown-account {
+  height: 200px;
+}
 .dropdown-button {
   width: 166px;
-  height: 25px;
+  height: 40px;
   color: rgb(47, 47, 47);
   font-size: 11px;
   border: solid 1px rgb(47, 47, 47);

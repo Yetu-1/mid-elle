@@ -97,6 +97,7 @@
 }
 
 #price {
+    font-weight: bold;
     font-family: "Montserrat", Verdana, sans-serif;
 }
 
@@ -165,4 +166,4 @@
     justify-content: center;
     align-items: center;
 }
-/*445 56
+/*445 56 */

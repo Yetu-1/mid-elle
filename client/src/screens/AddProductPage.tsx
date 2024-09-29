@@ -121,12 +121,12 @@ export function AddProductPage() {
             <form id="add-product-form" onSubmit={handleAddProduct}>
                 <div className="form-group">
                     <p className="input-label">Product Name</p>
-                    <input className="input-field" placeholder="Example: Stainless Steel Smooth Double Ball Beads Rings" required onChange={(e) => {setProductName(e.target.value)}}/>
+                    <input className="input-field custom-width" placeholder="Example: Stainless Steel Smooth Double Ball Beads Rings" required onChange={(e) => {setProductName(e.target.value)}}/>
                 </div>
 
                 <div className="form-group">
                     <p className="input-label">Product Type</p>
-                    <select className="select-box" onChange={(e) => {setProductType(e.target.value)}}>
+                    <select className="select-box custom-width" onChange={(e) => {setProductType(e.target.value)}}>
                         <option value="ring">RING</option>
                         <option value="necklace">NECKLACE</option>
                         <option value="bracelet">BRACELET</option>
@@ -136,23 +136,23 @@ export function AddProductPage() {
                 </div>
                 <div className="form-group">
                     <p className="input-label">Brand Name</p>
-                    <input className="input-field" placeholder="Example: Zara" required onChange={(e) => {setBrandName(e.target.value)}}/>
+                    <input className="input-field custom-width" placeholder="Example: Zara" required onChange={(e) => {setBrandName(e.target.value)}}/>
                 </div>
 
                 <div className="form-group">
                     <p className="input-label">Price</p>
-                    <input className="input-field" placeholder="Example: 10000" type="number" required onChange={(e) => {setPrice(e.target.value)}}/>
+                    <input className="input-field custom-width" placeholder="Example: 10000" type="number" required onChange={(e) => {setPrice(e.target.value)}}/>
                 </div>
 
                 <div className="form-group">
                     <p className="input-label">Product Description</p>
-                    <textarea className="input-field description" placeholder={exampleDescription} required onChange={(e) => {setDescription(e.target.value)}}/>
+                    <textarea className="input-field description custom-width" placeholder={exampleDescription} required onChange={(e) => {setDescription(e.target.value)}}/>
                 </div>
 
                 <div>
                     <div className="form-group">
                         <p className="input-label">Images</p>
-                        <div className="images-card">
+                        <div className="custom-width">
                         <p><input type="file" className="input-file" id="mul-images"  onChange={handleImagesUpload} multiple/>
                                 <label style={{color: "blue"}} htmlFor="mul-images">Upload multiple files at once </label>
                                 or Upload 1 or more files at a time below. Maximum of 4 images is allowed. Upload the main image first.</p>

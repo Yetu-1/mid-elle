@@ -47,10 +47,10 @@ export function SearchPage(props: {page: string}) {
 
     return (
         <div className="search-page-container">
-            <div id="filter">
+            {/* <div id="filter">
                 <p>FILTERS +</p>
                 <p>SORT BY +</p>
-            </div>
+            </div> */}
 
             <div id="products-container">
                 <div className="search-products">

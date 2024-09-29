@@ -45,18 +45,7 @@ type Product = {
 
 export function CartPage() {
     const [itemStatus, setItemStatus] = useState<ItemChecked[]>([])
-    const [products, setProducts] = useState<Product[]>([{
-        id: 0,
-        product_id: "XX",
-        name: "XX",
-        type: "XX",
-        brand: "XX",
-        description: "XX",
-        price: "XX",
-        discount: "XX",
-        images: [],
-        qty: 0
-    }]);
+    const [products, setProducts] = useState<Product[]>([]);
 
     const token = sessionStorage.getItem("token");
     const user = {
@@ -97,7 +86,7 @@ export function CartPage() {
             if(sessionStorage.getItem("token")) {
                 try {
                     // send a get request to the server with a payload contains the type of product
-                    const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/cart/fetch`, config);
+                    const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/cart`, config);
         
                     console.log(response.data);
                     setProducts(response.data)
